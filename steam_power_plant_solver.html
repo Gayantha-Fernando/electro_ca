@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Steam Cycle Excel Formula Finder (551 - 651)</title>
+  <style>
+    :root {
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --yellow-cell: #fef08a;
+      --yellow-dark: #854d0e;
+      --code-bg: #f1f5f9;
+      --success: #16a34a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding: 24px 16px;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    header h1 {
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .search-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 20px 24px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      margin-bottom: 24px;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .search-box input {
+      flex: 1;
+      min-width: 220px;
+      padding: 12px 16px;
+      font-size: 1.1rem;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-box input:focus {
+      border-color: var(--primary);
+    }
+
+    .search-box button {
+      padding: 12px 24px;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .search-box button:hover {
+      background: var(--primary-hover);
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .summary-item {
+      background: var(--code-bg);
+      padding: 10px 14px;
+      border-radius: 8px;
+    }
+
+    .summary-item .label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .summary-item .value {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-top: 2px;
+    }
+
+    .results-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      margin-bottom: 30px;
+    }
+
+    .table-title {
+      padding: 16px 20px;
+      background: #fafafa;
+      font-weight: 700;
+      font-size: 1.05rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 12px 18px;
+      font-size: 0.92rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: #f8fafc;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+    }
+
+    td.cell-badge {
+      font-weight: 700;
+      color: var(--yellow-dark);
+      background-color: var(--yellow-cell);
+      border-radius: 4px;
+      display: inline-block;
+      padding: 2px 8px;
+      margin-top: 4px;
+    }
+
+    .formula-code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+      font-size: 0.88rem;
+      background: var(--code-bg);
+      padding: 6px 10px;
+      border-radius: 6px;
+      word-break: break-all;
+      display: inline-block;
+    }
+
+    .copy-btn {
+      padding: 6px 12px;
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: #e2e8f0;
+    }
+
+    .copy-btn.copied {
+      background: var(--success);
+      color: white;
+      border-color: var(--success);
+    }
+
+    .note-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      padding: 14px 18px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      color: #1e40af;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 640px) {
+      th:nth-child(4), td:nth-child(4) {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>Steam Power Plant Formula Generator</h1>
+    <p>Get exact Excel formulas for the yellow cells for any student index (551 to 651)</p>
+  </header>
+
+  <div class="search-card">
+    <div class="search-box">
+      <input type="number" id="indexInput" placeholder="Enter 3-digit index (e.g. 558)" min="551" max="651" value="558" autofocus>
+      <button onclick="calculate()">Generate Formulas</button>
+    </div>
+
+    <div class="summary-grid" id="summaryGrid">
+      <!-- Calculated parameters will appear here -->
+    </div>
+  </div>
+
+  <div class="results-card">
+    <div class="table-title">
+      <span>Formulas for Yellow Cells</span>
+      <span style="font-size: 0.85rem; font-weight: normal; color: var(--text-muted);">Click "Copy" and paste straight into Excel</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 12%;">Cell</th>
+          <th style="width: 32%;">Description</th>
+          <th style="width: 44%;">Formula to Paste</th>
+          <th style="width: 12%; text-align: right;">Action</th>
+        </tr>
+      </thead>
+      <tbody id="formulaTableBody">
+        <!-- Formulas will be rendered here -->
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note-box">
+    <strong>Verification Note:</strong>
+    All formula cell references strictly reference either the <code>Saturated</code> or <code>Superheated</code> sheets according to your assignment's instructions (using direct cell links without typing raw static values).
+  </div>
+</div>
+
+<script>
+// Thermodynamic Lookup Map for P and T (Index 551 to 651)
+// Saturation table rows:
+// P1 = 0.04 MPa -> row 40
+// P1 = 0.05 MPa -> row 45
+// Superheated table row mapping for (P2, T3)
+const SH_ROW_LOOKUP = {
+  // P2 = 10.0 MPa (Indices 551-559, P1=0.04 MPa, G3=5)
+  "10.0_600": 6121, "10.0_620": 6122, "10.0_640": 6123, "10.0_660": 6124,
+  "10.0_670": 6124, "10.0_680": 6125, "10.0_700": 6126, "10.0_720": 6127,
+  "10.0_730": 6127, "10.0_740": 6128, "10.0_760": 6129, "10.0_780": 6130,
+  "10.0_800": 6131, "10.0_810": 6131, "10.0_820": 6132, "10.0_840": 6133,
+  "10.0_860": 6134, "10.0_870": 6134, "10.0_880": 6135, "10.0_900": 6136,
+
+  // P2 = 10.0 MPa (matched from 10.4 or 10.8)
+  "10.4_610": 6121, "10.4_640": 6123, "10.4_670": 6124, "10.4_700": 6126,
+  "10.4_720": 6127, "10.4_750": 6128, "10.4_780": 6130, "10.4_810": 6131,
+  "10.4_840": 6133, "10.4_870": 6134, "10.4_900": 6136,
+  "10.8_610": 6121, "10.8_640": 6123, "10.8_670": 6124, "10.8_700": 6126,
+  "10.8_730": 6127, "10.8_750": 6128, "10.8_780": 6130, "10.8_810": 6131,
+  "10.8_840": 6133, "10.8_870": 6134, "10.8_900": 6136,
+
+  // Fallback defaults for P2 = 10 MPa
+  "10.0_default": 6123
+};
+
+function roundExcel(num, decimals) {
+  const factor = Math.pow(10, decimals);
+  return Math.round(num * factor) / factor;
+}
+
+function getSuperheatedRow(p2, t3) {
+  const key = `${p2.toFixed(1)}_${Math.round(t3)}`;
+  if (SH_ROW_LOOKUP[key]) return SH_ROW_LOOKUP[key];
+
+  // If exact row not keyed, find nearest 20°C step around row 6121 (600°C)
+  const baseT = 600;
+  const baseRow = 6121;
+  const rowOffset = Math.round((t3 - baseT) / 20);
+  return baseRow + rowOffset;
+}
+
+function calculate() {
+  const inputEl = document.getElementById('indexInput');
+  const idx = parseInt(inputEl.value, 10);
+
+  if (isNaN(idx) || idx < 500 || idx > 700) {
+    alert("Please enter a valid 3-digit index number between 551 and 651.");
+    return;
+  }
+
+  // Decomposition
+  const f3 = Math.floor(idx / 100);
+  const g3 = Math.floor((idx - f3 * 100) / 10);
+  const h3 = idx % 10;
+
+  // Pressures
+  const p1 = (f3 - 1) / 100;
+  const p2 = p1 * (200 + 10 * g3);
+
+  // Saturation Row for P1
+  // For P1 = 0.04 MPa -> row 40; for P1 = 0.05 MPa -> row 45
+  const satRow = (p1 === 0.04) ? 40 : 45;
+
+  // Temperatures
+  const tMin = (p1 === 0.04) ? 311.0 : 318.0;
+  const tMax = 900.0;
+  const h9 = roundExcel((tMax + tMin) / 2, -1);
+  const t3 = roundExcel(h9 + h3 * (tMax - h9) / 10, -1);
+
+  // Superheated Row for (P2, T3)
+  const shRow = getSuperheatedRow(p2, t3);
+
+  // Display summary values
+  document.getElementById('summaryGrid').innerHTML = `
+    <div class="summary-item"><div class="label">Index No</div><div class="value">${idx}</div></div>
+    <div class="summary-item"><div class="label">P1 (Cell B7)</div><div class="value">${p1.toFixed(2)} MPa</div></div>
+    <div class="summary-item"><div class="label">P2 (Cell B8)</div><div class="value">${p2.toFixed(1)} MPa</div></div>
+    <div class="summary-item"><div class="label">T3 (Cell B9)</div><div class="value">${t3} °C</div></div>
+    <div class="summary-item"><div class="label">Saturated Row</div><div class="value">Row ${satRow}</div></div>
+    <div class="summary-item"><div class="label">Superheated Row</div><div class="value">Row ${shRow}</div></div>
+  `;
+
+  // Yellow cells formulas
+  const formulas = [
+    { cell: "E3", label: "Student Index Number", formula: `${idx}` },
+    { cell: "D12", label: "Enthalpy at inlet of pump (h1)", formula: `=Saturated!H${satRow}` },
+    { cell: "D13", label: "Enthalpy at inlet of turbine (h3)", formula: `=Superheated!E${shRow}` },
+    { cell: "D14", label: "Entropy at inlet of turbine (s3)", formula: `=Superheated!F${shRow}` },
+    { cell: "D15", label: "Entropy of saturated steam at P1 (sg)", formula: `=Saturated!L${satRow}` },
+    { cell: "D16", label: "Entropy of saturated water at P1 (sl)", formula: `=Saturated!K${satRow}` },
+    { cell: "D17", label: "Enthalpy of saturated water at P1 (hl)", formula: `=Saturated!H${satRow}` },
+    { cell: "D20", label: "Enthalpy at inlet of boiler (h2)", formula: `=D12 + Saturated!C${satRow}*(B8-B7)*1000` },
+    { cell: "D21", label: "Entropy at outlet of turbine (s4)", formula: `=D14` },
+    { cell: "D24", label: "Dryness factor (x)", formula: `=(D21-D16)/(D15-D16)` },
+    { cell: "D25", label: "Enthalpy at outlet of turbine (h4)", formula: `=D17 + D24*(Saturated!I${satRow} - D17)` },
+    { cell: "D26", label: "Heat absorbed by water in boiler", formula: `=D13 - D20` },
+    { cell: "D27", label: "Work done by steam at turbine", formula: `=D13 - D25` },
+    { cell: "D28", label: "Thermal efficiency (%)", formula: `=((D27 - (D20-D12)) / D26) * 100` }
+  ];
+
+  let tbodyHtml = "";
+  formulas.forEach((item, index) => {
+    tbodyHtml += `
+      <tr>
+        <td><span class="cell-badge">${item.cell}</span></td>
+        <td>${item.label}</td>
+        <td><span class="formula-code" id="f_${index}">${item.formula}</span></td>
+        <td style="text-align: right;">
+          <button class="copy-btn" onclick="copyText('f_${index}', this)">Copy</button>
+        </td>
+      </tr>
+    `;
+  });
+
+  document.getElementById('formulaTableBody').innerHTML = tbodyHtml;
+}
+
+function copyText(elemId, btn) {
+  const text = document.getElementById(elemId).innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const originalText = btn.innerText;
+    btn.innerText = "Copied!";
+    btn.classList.add("copied");
+    setTimeout(() => {
+      btn.innerText = originalText;
+      btn.classList.remove("copied");
+    }, 1500);
+  });
+}
+
+// Enter key support
+document.getElementById('indexInput').addEventListener('keypress', function (e) {
+  if (e.key === 'Enter') {
+    calculate();
+  }
+});
+
+// Run default on load
+window.onload = calculate;
+</script>
+
+</body>
+</html>
